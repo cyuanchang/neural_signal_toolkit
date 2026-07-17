@@ -1,4 +1,4 @@
-"""Section 5 — rupture-based onset / offset (change-point) detection."""
+"""rupture-based onset / offset (change-point) detection."""
 
 from __future__ import annotations
 
@@ -54,7 +54,6 @@ def detect_changepoints(
     """Detect change points with the ``ruptures`` package (PELT or Dynp).
 
     Parameters
-    ----------
     pen :
         Penalty for PELT. If both ``pen`` and ``n_bkps`` are None, uses a
         simple MAD-based heuristic.
