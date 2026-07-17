@@ -1,4 +1,4 @@
-"""Section 3 — time–frequency / power spectrogram transforms."""
+"""time–frequency / power spectrogram transforms."""
 
 from __future__ import annotations
 
@@ -38,7 +38,7 @@ def spectrogram(
 ) -> SpectrogramResult:
     """STFT-based power spectrogram (SciPy wrapper with sensible neural defaults).
 
-    Defaults choose ``nperseg`` ≈ 0.25 s of data when unspecified.
+    Defaults choose ``nperseg`` around 0.25 s of data when unspecified.
     """
     x = as_1d_float(x)
     fs = ensure_fs(fs)
