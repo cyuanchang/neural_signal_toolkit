@@ -40,13 +40,13 @@ x_bp = filtering.bandpass(x, 20, 450, fs)
 # Naive stim-artifact highlight (HPF - TKEO - z-score - threshold)
 naive = artifacts.detect_artifacts_tkeo(x, fs, highpass_hz=100, threshold=3.0)
 
-# 2b) Adaptive ACSR (Kim et al., 2021)
+# Adaptive ACSR (Kim et al., 2021)
 acsr = artifacts.acsr_filter(x, artifact_ref=ref, fs=fs)
 
-# 3) Spectrogram
+# Spectrogram
 spec = timefreq.spectrogram(acsr.cleaned, fs)
 
-# 5) Burst onset / offset via ruptures
+# Burst onset / offset via ruptures
 bursts = detection.detect_onset_offset(acsr.cleaned, fs)
 ```
 
