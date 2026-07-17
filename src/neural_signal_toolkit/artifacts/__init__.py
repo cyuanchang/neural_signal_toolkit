@@ -1,4 +1,4 @@
-"""Section 2 — stimulation / recording artifact rejection."""
+"""stimulation / recording artifact rejection."""
 
 from neural_signal_toolkit.artifacts.acsr import (
     ACSRParams,
