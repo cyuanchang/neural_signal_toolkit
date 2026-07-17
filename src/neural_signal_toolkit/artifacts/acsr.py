@@ -1,17 +1,12 @@
 """Artifact Component Specific Rejection (ACSR) for stimulation artifacts.
 
-Faithful Python port of the method described in:
+Faithful Python replication of the method described in:
+Kim et al. (2021). A Novel Technique to Reject Artifact Components for Surface EMG Signals Recorded During Walking With Transcutaneous Spinal
+Cord Stimulation. Front. Hum. Neurosci. 15:660583. https://doi.org/10.3389/fnhum.2021.660583
 
-    Kim et al. (2021). A Novel Technique to Reject Artifact Components for
-    Surface EMG Signals Recorded During Walking With Transcutaneous Spinal
-    Cord Stimulation. Front. Hum. Neurosci. 15:660583.
-    https://doi.org/10.3389/fnhum.2021.660583
+Official published MATLAB implementation: https://github.com/mjkim0927/kim-frontiers-2021
 
-Also see the authors' MATLAB release:
-https://github.com/mjkim0927/kim-frontiers-2021
-
-Core idea
----------
+Pipeline:
 1. Train on an *artifact-dominant* segment (e.g., quiet standing under stim).
 2. For each overlapping window, take the FFT magnitude spectrum.
 3. Artifact template = **max** magnitude at each frequency bin across windows.
@@ -65,10 +60,7 @@ def estimate_artifact_spectrum(
     params: ACSRParams | None = None,
 ) -> tuple[np.ndarray, np.ndarray, int, int]:
     """Learn ACSR artifact parameters from an artifact-dominant reference.
-
-    Returns
-    -------
-    artifact_spectrum, freqs, window_samples, hop_samples
+    Returns: artifact_spectrum, freqs, window_samples, hop_samples
     """
     params = params or ACSRParams()
     fs = ensure_fs(fs)
@@ -146,8 +138,6 @@ def acsr_filter(
 ) -> ACSRResult:
     """End-to-end ACSR: train on ``artifact_ref``, clean ``x``.
 
-    Typical usage for tSCS / stim-contaminated EMG
-    -----------------------------------------------
     - ``artifact_ref``: quiet standing (or rest) under stimulation
     - ``x``: walking / task segment with the same stim settings
     - defaults: 200 ms windows, 100 ms overlap (Kim et al., 2021)
