@@ -1,6 +1,6 @@
 # Neural Signal Toolkit
 
-A practical, documentary Python toolkit for **physiological / neural signal processing** in BME and neural computation. It wraps battle-tested packages (`scipy`, `scikit-learn`, `ruptures`, `PyWavelets`) into a clear, sectioned API so you spend less time wiring pipelines and more time interpreting physiology.
+A practical Python toolkit for **physiological / neural signal processing**. It wraps battle-tested packages (`scipy`, `scikit-learn`, `ruptures`, `PyWavelets`) into a clear, sectioned API so you spend less time wiring pipelines and more time interpreting physiology.
 
 **Focus areas**
 
@@ -15,7 +15,7 @@ A practical, documentary Python toolkit for **physiological / neural signal proc
 ## Install
 
 ```bash
-cd E:\neural_signal_toolkit
+cd \neural_signal_toolkit
 python -m venv .venv
 .venv\Scripts\activate
 pip install -e ".[dev]"
@@ -34,10 +34,10 @@ fs = 2000.0
 x, emg, stim = make_emg_with_stim(fs=fs)
 ref = make_artifact_reference(fs=fs)
 
-# 1) Band-limit like a typical sEMG front-end
+# Bandpass
 x_bp = filtering.bandpass(x, 20, 450, fs)
 
-# 2a) Naive stim-artifact highlight (HPF → TKEO → z-score → threshold)
+# Naive stim-artifact highlight (HPF - TKEO - z-score - threshold)
 naive = artifacts.detect_artifacts_tkeo(x, fs, highpass_hz=100, threshold=3.0)
 
 # 2b) Adaptive ACSR (Kim et al., 2021)
@@ -60,9 +60,9 @@ Runnable demos live in [`examples/`](examples/).
 |---|---|
 | `filtering.lowpass` | Attenuate above cutoff |
 | `filtering.highpass` | Attenuate below cutoff |
-| `filtering.bandpass` | Keep a band (e.g. EMG 20–450 Hz) |
+| `filtering.bandpass` | Keep a band (e.g. EMG 4–150 Hz) |
 | `filtering.bandstop` | Reject a band |
-| `filtering.notch` / `multi_notch` | Narrow IIR notches (line noise / harmonics) |
+| `filtering.notch` / `multi_notch` | Narrow IIR notches (line noise / harmonics) eg 60Hz |
 
 Defaults use Butterworth SOS + zero-phase `sosfiltfilt` / `filtfilt` so phase distortion does not shift burst timing.
 
@@ -94,8 +94,6 @@ result = detect_artifacts_tkeo(x, fs=2000, highpass_hz=100, threshold=3.0)
 # result.mask, result.tkeo_z, result.cleaned
 ```
 
-**When to use:** quick QA, obvious high-amplitude stim spikes, interactive threshold tuning.
-
 ### 2.2 Adaptive path — ACSR (Kim et al., 2021)
 
 **Artifact Component Specific Rejection** learns a frequency-domain artifact template from an *artifact-dominant* reference (e.g. quiet standing under stim), then subtracts that template from task windows while preserving phase.
@@ -119,14 +117,6 @@ params = ACSRParams(window_ms=200, overlap_ms=100, train_ms=3000)
 out = acsr_filter(task_emg, artifact_ref=standing_under_stim, fs=2000, params=params)
 clean = out.cleaned
 ```
-
-**When to use:** structured stim artifacts with a usable rest/standing reference; prefer over naive notch-only rejection when stim harmonics overlap EMG bandwidth.
-
-| Method | Needs reference? | Adaptive to stim settings? | Typical role |
-|---|---|---|---|
-| TKEO threshold | No | Manual threshold | Fast spike blanking |
-| ACSR | Yes (artifact-dominant) | Yes (spectrum learned) | Precision cleaning for analysis |
-
 ---
 
 ## Section 3 — Time–frequency / spectrograms
@@ -196,21 +186,6 @@ neural_signal_toolkit/
     ├── viz/
     └── synth.py
 ```
-
----
-
-## Design notes (documentary)
-
-This repo is intentionally a **utilization layer**, not a reinvention of DSP:
-
-- Filters → `scipy.signal`  
-- Decompositions → `sklearn`  
-- Change points → `ruptures`  
-- Wavelets → `PyWavelets`  
-- ACSR → transparent NumPy FFT port of Kim et al. (2021)  
-- TKEO → discrete operator aligned with common MATLAB practice  
-
-The value is **structure, defaults, and physiology-aware pipelines** (especially stim-artifact handling) that match how BME / neural labs actually clean and analyze data.
 
 ---
 
