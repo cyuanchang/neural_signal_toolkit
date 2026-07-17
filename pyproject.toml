@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neural-signal-toolkit"
+version = "0.1.0"
+description = "User-friendly physiological / neural signal processing toolkit (filter, stim-artifact rejection, spectrograms, PCA/LDA/ICA, ruptures onset detection)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Yuanchang Chen" }]
+keywords = [
+  "EMG",
+  "EEG",
+  "neural",
+  "BME",
+  "signal-processing",
+  "artifact-rejection",
+  "TKEO",
+  "ACSR",
+]
+dependencies = [
+  "numpy",
+  "scipy",
+  "scikit-learn",
+  "matplotlib",
+  "ruptures",
+  "PyWavelets",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "ipykernel", "jupyter"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
