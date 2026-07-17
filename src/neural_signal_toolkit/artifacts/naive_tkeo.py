@@ -43,7 +43,6 @@ def detect_artifacts_tkeo(
     """Naive stim-artifact detection used as a fast first-pass method.
 
     Pipeline
-    --------
     1. High-pass at ``highpass_hz`` (default 100 Hz) to emphasize instantaneous
        spikes and attenuate lower-frequency physiological content.
     2. Compute Teager–Kaiser Energy Operator (TKEO).
@@ -52,7 +51,6 @@ def detect_artifacts_tkeo(
     5. Optionally blank flagged samples and interpolate.
 
     Notes
-    -----
     Threshold is intentionally manual — tune on a few trials with known stim
     timing. For a more adaptive spectral approach, see :func:`acsr_filter`.
     """
