@@ -1,4 +1,4 @@
-"""Neural physiological signal processing toolkit for BME / neural computation."""
+"""Neural physiological signal processing toolkit."""
 
 from neural_signal_toolkit import filtering, artifacts, timefreq, decomposition, detection
 
