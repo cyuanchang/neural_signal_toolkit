@@ -1,4 +1,4 @@
-"""Section 4 — standard neural / multivariate decompositions (PCA, LDA, ICA)."""
+"""standard neural / multivariate decompositions (PCA, LDA, ICA)."""
 
 from __future__ import annotations
 
