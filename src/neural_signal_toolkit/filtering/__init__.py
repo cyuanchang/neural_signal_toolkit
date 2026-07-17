@@ -1,4 +1,4 @@
-"""Section 1 — standardized FIR/IIR filtering wrappers."""
+"""standardized FIR/IIR filtering wrappers."""
 
 from __future__ import annotations
 
@@ -121,9 +121,7 @@ def notch(
     """IIR notch at ``freq`` Hz (power-line / stimulation harmonic helper).
 
     Parameters
-    ----------
-    q :
-        Quality factor. Higher ``q`` → narrower notch.
+    q : Quality factor. Higher ``q`` → narrower notch.
     """
     ensure_fs(fs)
     x = as_1d_float(x)
